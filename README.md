@@ -6,7 +6,7 @@ This repository contains the R-based implementation of a spatial, stochastic cel
 
 The analytical framework is structured into two independent, standalone R scripts:
 
-### 1. Core Spread and Policy Simulation Framework (`CBSD_Core_Spread_Model.R`)
+### 1. Core Spread and Policy Simulation Framework (`Spread_Model.R`)
 This script serves as the primary simulation engine, executing data processing, parameter optimization, baseline calibration, and ex-post policy evaluation.
 * **Spatial Processing & Downscaling:** Ingests global SPAM 2020 cassava harvested area layers, clips them to the specific study zone, filters out non-production noise using a $\ge 100$ hectares threshold, and executes spatial disaggregation to downscale the original grid into a high-resolution $3 \times 3\text{ km}$ sub-cell framework.
 * **Geodesic Distance Computing:** Utilizes out-of-core memory management (`bigmemory`) to process a pairwise matrix of $40,248 \times 40,248$ pixel centroids, computing exact geodesic distances via the Haversine great-circle formula.
@@ -15,7 +15,7 @@ This script serves as the primary simulation engine, executing data processing, 
 * **Policy Experimentation ("Border Control"):** Restricts transboundary pathways by implementing a user-defined $75\%$ quarantine efficiency barrier between specified geopolitical zones.
 * **Impact Metrics Derivation:** Intersects multi-temporal binary infection mask surfaces with active agricultural grids to output Microsoft Excel spreadsheets (`.xlsx`) detailing regional biophysical impacts in metric tons and harvested hectares per province.
 
-### 2. Comprehensive Sensitivity Analysis Suite (`CBSD_Sensitivity_Analysis_Suite.R`)
+### 2. Comprehensive Sensitivity Analysis Suite (`Sensitivity_Analysis.R`)
 This script evaluates structural parameter robustness and assesses model stability against stochastic noise through three parallelized (`future.apply`) Monte Carlo verification layers:
 * **Part 1 (Spatial Seed Location Vulnerability):** Randomizes the initial patient zero origin node across regional boundaries ($100$ independent simulations per country) to calculate loss dispersion parameters (Mean, SD, Median, CV, Quantiles P5/P95, and Standard Error) for regional risk profiling.
 * **Part 2 (Parameter Perturbation Analysis):** Holds the outbreak origin static while introducing a continuous uniform noise distribution ($\pm 10\%$ perturbation bounds) over the calibrated whitefly transmission threshold to evaluate coefficient stability via non-parametric correlation models (Spearman & Kendall).
